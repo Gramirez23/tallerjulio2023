@@ -1,0 +1,21 @@
+---
+
+- hosts: linux
+  become: yes  
+  remote_user: sysadmin
+  
+  tasks:
+
+    - name: Creates ansible user
+      user:
+        name: ansible
+        state: present
+        groups: sudo
+        append: yes
+        password: #replicar el ejemplo en clase
+
+    - name: installs Public key of the ansible user
+      authorized_key:
+        user: ansible
+        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"  
+        state: present
