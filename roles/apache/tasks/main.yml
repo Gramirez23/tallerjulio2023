@@ -1,0 +1,100 @@
+---
+- hosts: linux
+  become: yes
+  remote_user: ansible
+
+  tasks:
+
+# Apache Installation
+    - name: Install apache on Redhat
+      yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == 'Redhat'
+
+    - name: Install apache on Debian
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+# Virtualhost directory 
+    - name: Create virtualhost configuration directory on Redhat
+      file:
+        path: /etc/httpd/vhosts.d
+        state: directory
+        owner: root
+      when: ansible_os_family == 'Redhat'
+
+    - name: Create virtualhost configuration directory
+      file:
+        path: /etc/apache2/vhosts.d
+        state: directory
+        owner: root
+      when: ansible_os_family == 'Debian'
+
+# Include VIrtualhost directory on apache config
+    - name: Include vhosts directory on Redhat
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        line: IncludeOptional /etc/httpd/vhosts.d/*.conf
+      when: ansible_os_family == 'Redhat'
+
+    - name: Include vhosts directory on Debian
+      lineinfile:
+        path: /etc/apache2/apache2.conf
+        line: IncludeOptional /etc/apache2/vhosts.d/*.conf
+      when: ansible_os_family == 'Debian'
+
+# Firewall ports        
+    - name: Open firewall ports on Redhat
+      firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: true
+        immediate: true
+      loop:
+        - http
+        - https
+      when: ansible_os_family == 'Redhat'
+
+    - name: Open firewall ports on Debian
+      ufw:
+        port: "{{ item }}"
+        state: enabled
+      loop:
+        - '443'
+        - '80'  
+      when: ansible_os_family == 'Debian'
+
+# Start and enable service
+    - name: Start and enabled httpd service 
+      service:
+        name: httpd
+        enabled: true
+        state: started
+      when: ansible_os_family == 'Redhat'
+
+    - name: Start and enable apache2 service
+      service:
+        name: apache2
+        enabled: true
+        state: started
+      when: ansible_os_family == 'Debian'
+
+  handlers:
+
+# Restart apache
+    - name: Restart apache on Redhat
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_os_family == 'Redhat'
+
+    - name: Restart apache on Debian
+      service:
+        name: apache2
+        state: restarted
+      when: ansible_distribution == 'Debian'
+
