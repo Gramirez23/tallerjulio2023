@@ -1,0 +1,9 @@
+[redhat]
+rocky-server	ansible_host=192.168.56.101
+
+[ubuntu]
+ubuntu-server	ansible_host=192.168.56.102
+
+[linux:children]
+redhat
+ubuntu
