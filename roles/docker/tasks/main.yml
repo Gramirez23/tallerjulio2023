@@ -1,0 +1,32 @@
+---
+- hosts: redhat
+  become: yes
+  remote_user: ansible
+
+  tasks:
+
+
+  - name: Set up docker repository
+    shell: |
+      dnf install -y yum-utils
+      yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    args:
+      warn: no
+
+  - name: Install the latest version of Docker Engine and containerd
+    dnf:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: present
+    notify: Start and enable docker
+ 
+  - name: Add the current user to the docker group
+    user:
+      name: ansible
+      groups: docker
+      append: yes
+
+
+
