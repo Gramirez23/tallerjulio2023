@@ -1,5 +1,5 @@
 ---
-- hosts: linux
+- hosts: Redhat
   become: yes
   remote_user: ansible
 
@@ -75,26 +75,10 @@
         enabled: true
         state: started
       when: ansible_os_family == 'Redhat'
-
-    - name: Start and enable apache2 service
+  
+    - name: Start and enabled apache service
       service:
-        name: apache2
+        name: apache
         enabled: true
         state: started
       when: ansible_os_family == 'Debian'
-
-  handlers:
-
-# Restart apache
-    - name: Restart apache on Redhat
-      service:
-        name: httpd
-        state: restarted
-      when: ansible_os_family == 'Redhat'
-
-    - name: Restart apache on Debian
-      service:
-        name: apache2
-        state: restarted
-      when: ansible_distribution == 'Debian'
-
