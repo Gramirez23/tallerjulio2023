@@ -3,7 +3,8 @@
 - hosts: linux
   become: yes  
   remote_user: sysadmin
-  
+  vars_file: 
+    - roles/ansibleuser/vars/ansiblepass.yml
   tasks:
 
     - name: Creates ansible user
@@ -12,7 +13,7 @@
         state: present
         groups: sudo
         append: yes
-        password: #replicar el ejemplo en clase
+        password: "{{ ansiblepass }}"
 
     - name: installs Public key of the ansible user
       authorized_key:
