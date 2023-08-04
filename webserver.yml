@@ -1,0 +1,22 @@
+---
+- hosts: redhat
+  become: yes
+  remote_user: ansible
+  roles:
+    - ansibleuser
+    - apache
+ 
+  tasks:
+
+  - name: Copy virtualhost configuration
+    copy:
+      src: ./files/vhost.conf
+      dest: /etc/httpd/vhosts.d/ejemplo.conf
+    notify: Restart apache
+
+  handlers:
+
+  - name: Restart apache
+    service:
+      name: httpd
+      state: restarted
