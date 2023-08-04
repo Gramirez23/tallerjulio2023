@@ -1,9 +1,9 @@
 [redhat]
-rocky-server	ansible_host=192.168.56.101
+Rocky.taller	ansible_host=192.168.56.102
 
-[ubuntu]
-ubuntu-server	ansible_host=192.168.56.102
+[Debian]
+ubuntu		ansible_host=192.168.56.103
 
 [linux:children]
 redhat
-ubuntu
+Debian

@@ -1,16 +1,11 @@
 ---
-- hosts: Redhat
-  become: yes
-  remote_user: ansible
-
-  tasks:
 
 # Apache Installation
     - name: Install apache on Redhat
       yum:
         name: httpd
         state: present
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
 
     - name: Install apache on Debian
       apt:
@@ -25,7 +20,7 @@
         path: /etc/httpd/vhosts.d
         state: directory
         owner: root
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
 
     - name: Create virtualhost configuration directory
       file:
@@ -39,7 +34,7 @@
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         line: IncludeOptional /etc/httpd/vhosts.d/*.conf
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
 
     - name: Include vhosts directory on Debian
       lineinfile:
@@ -57,7 +52,7 @@
       loop:
         - http
         - https
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
 
     - name: Open firewall ports on Debian
       ufw:
@@ -74,7 +69,7 @@
         name: httpd
         enabled: true
         state: started
-      when: ansible_os_family == 'Redhat'
+      when: ansible_os_family == 'RedHat'
   
     - name: Start and enabled apache service
       service:

@@ -1,22 +1,20 @@
 ---
-
-- hosts: linux
-  become: yes  
-  remote_user: sysadmin
-  vars_file: 
-    - roles/ansibleuser/vars/ansiblepass.yml
-  tasks:
-
     - name: Creates ansible user
       user:
         name: ansible
         state: present
-        groups: sudo
-        append: yes
         password: "{{ ansiblepass }}"
+
+    - name: Gives sudo privileges to ansible user on Redhat
+      shell: usermod -aG wheel ansible
+      when: ansible_os_family == 'RedHat'
+
+    - name: Gives sudo privileges to ansible user on Debian
+      shell: usermod -aG sudo ansible
+      when: ansible_os_family == 'Debian'
 
     - name: installs Public key of the ansible user
       authorized_key:
         user: ansible
-        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"  
+        key: "{{ lookup('file', '/home/sysadmin/.ssh/id_rsa.pub') }}"  
         state: present

@@ -1,22 +1,28 @@
 ---
-- hosts: redhat
-  become: yes
-  remote_user: ansible
-  roles:
-    - ansibleuser
-    - apache
+  - hosts: redhat
+    become: yes
+    remote_user: sysadmin
+    vars_files:
+     - ansiblepass.yml
+    roles:
+      - ansibleuser
+      - apache
  
-  tasks:
 
-  - name: Copy virtualhost configuration
-    copy:
-      src: ./files/vhost.conf
-      dest: /etc/httpd/vhosts.d/ejemplo.conf
-    notify: Restart apache
+  - name: Installs vhost file
+    become: yes
+    remote_user: ansible
+    tasks:
 
-  handlers:
+    - name: Copy virtualhost configuration
+      copy:
+        src: ./files/vhost.conf
+        dest: /etc/httpd/vhosts.d/ejemplo.conf
+      notify: Restart apache
 
-  - name: Restart apache
-    service:
-      name: httpd
-      state: restarted
+    handlers:
+
+    - name: Restart apache
+      service:
+        name: httpd
+        state: restarted
