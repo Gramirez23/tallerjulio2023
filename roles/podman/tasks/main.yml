@@ -1,0 +1,14 @@
+---
+# tasks file for podman
+- name: installing podman
+  package:
+    name: podman
+    state: present
+
+- name: Build a Docker formatted image
+  community.general.containers.podman_image:
+    name: todoapp
+    path: /home/sysadmin/tallerjulio2023/files/todoapp
+    build:
+      format: docker
+

@@ -1,4 +1,10 @@
 ---
+    - name: installs Public key in sysadmin user
+      authorized_key:
+        user: sysadmin
+        key: "{{ lookup('file', '/home/sysadmin/.ssh/id_rsa.pub') }}"
+        state: present
+
     - name: Creates ansible user
       user:
         name: ansible
@@ -13,7 +19,7 @@
       shell: usermod -aG sudo ansible
       when: ansible_os_family == 'Debian'
 
-    - name: installs Public key of the ansible user
+    - name: installs Public key in ansible user
       authorized_key:
         user: ansible
         key: "{{ lookup('file', '/home/sysadmin/.ssh/id_rsa.pub') }}"  
