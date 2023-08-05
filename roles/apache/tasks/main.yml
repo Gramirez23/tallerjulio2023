@@ -22,7 +22,7 @@
         owner: root
       when: ansible_os_family == 'RedHat'
 
-    - name: Create virtualhost configuration directory on Ubuntu/Debian
+    - name: Create virtualhost configuration directory on Debian/Ubuntu
       file:
         path: /etc/apache2/vhosts.d
         state: directory
