@@ -1,0 +1,33 @@
+---
+- hosts: linux
+  become: yes
+  remote_user: sysadmin
+
+  tasks:
+
+  - name: installs Public key in sysadmin user
+    authorized_key:
+      user: sysadmin
+      key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+      state: present          
+
+  - name: Update all available packages for RedHat servers
+    yum:
+      name: "*"
+      state: latest
+    notify: Restart server
+    when: ansible_os_family == "RedHat"
+
+  - name: Update all available packages for Debian servers
+    apt:
+      name: "*"
+      state: latest
+      update_cache: yes
+    notify: Restart server
+    when: ansible_os_family == "Debian" 
+
+
+  handlers:
+
+  - name: Restart server
+    reboot:  

@@ -3,16 +3,10 @@
     become: yes
     remote_user: sysadmin
     roles:
-      - ansibleuser
       - apache
       - podman  
+      - initialconf  
  
-
-  - name: webserver config
-    hosts: redhat
-    become: yes
-    remote_user: ansible
-    gather_facts: no
     tasks:
    
     - name: Copy virtualhost configuration

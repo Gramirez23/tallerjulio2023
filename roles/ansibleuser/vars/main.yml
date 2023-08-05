@@ -1,4 +1,0 @@
----
-# vars file for ansible_user
-vars_files:
-  - ansiblepass.yml
