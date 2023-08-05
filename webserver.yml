@@ -2,28 +2,37 @@
   - hosts: redhat
     become: yes
     remote_user: sysadmin
-    vars_files:
-     - ansiblepass.yml
     roles:
       - ansibleuser
       - apache
       - podman  
  
 
-  - name: Installs vhost file
+  - name: webserver config
+    hosts: redhat
     become: yes
     remote_user: ansible
+    gather_facts: no
     tasks:
-
+   
     - name: Copy virtualhost configuration
       copy:
         src: ./files/vhost.conf
         dest: /etc/httpd/vhosts.d/vhost.conf
       notify: Restart apache
+    
+    - name: Create container
+      containers.podman.podman_container:
+        name: todoapp
+        image: todoapp
+        expose:
+          - 8080
+          - 8009
+        state: started
 
     handlers:
-
-    - name: Restart apache
-      service:
-        name: httpd
-        state: restarted
+ 
+     - name: Restart apache
+       service:
+         name: httpd
+         state: restarted
