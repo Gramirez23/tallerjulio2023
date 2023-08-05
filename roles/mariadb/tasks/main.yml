@@ -1,19 +1,25 @@
-# HAY QUE PROBARLO
-
-- host: ubuntu
-  remote_user: sysadmin  
-  become: yes
-  vars_files:
-    - dvpassword.yml
-#hay que encriptar la password
-
-  tasks
+---
+# tasks file for mariadb
 
   - name: Install Maria DB server
     apt:
       name: mariadb-server
-      state:present
-      update_chache: yes
+      state: present
+      update_cache: yes
+
+  - name: Open mariadb ports
+    ufw:
+      state: enabled
+      rule: allow
+      port: '3306'
+      proto: tcp
+ 
+  - name: Configure mariadb to listen on all interfaces
+    lineinfile:
+      path: /etc/mysql/mariadb.conf.d/50-server.cnf
+      regexp: '^bind-address'
+      line: bind-address = 0.0.0.0
+    notify: Restart mariadb server
 
   - name: mariaDB service enable and start
     service: 
@@ -29,9 +35,9 @@
       host: "{{ item }}"
       password: "{{ rootpass }}"
     loop: 
-       -127.0.0.1
-       -localhost
-       -192.168.56.0/24
+       - 127.0.0.1
+       - localhost
+       - 192.168.56.0/24
 
   - name: Anonymous user delete
     mysql_user:

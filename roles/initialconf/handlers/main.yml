@@ -1,2 +1,5 @@
 ---
 # handlers file for initialconf
+
+  - name: Restart server
+    reboot:

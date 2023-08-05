@@ -3,9 +3,9 @@
     become: yes
     remote_user: sysadmin
     roles:
-      - apache
+      - initialconf
       - podman  
-      - initialconf  
+      - apache  
  
     tasks:
    

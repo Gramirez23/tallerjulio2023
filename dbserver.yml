@@ -1,0 +1,11 @@
+---
+
+  - hosts: Debian
+    become: yes
+    remote_user: sysadmin
+    roles:
+      - initialconf
+      - mariadb
+
+
+

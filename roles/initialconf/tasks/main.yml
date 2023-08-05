@@ -1,9 +1,4 @@
 ---
-- hosts: linux
-  become: yes
-  remote_user: sysadmin
-
-  tasks:
 
   - name: installs Public key in sysadmin user
     authorized_key:
@@ -26,8 +21,11 @@
     notify: Restart server
     when: ansible_os_family == "Debian" 
 
+  - name: Enable firewall and allow ssh connections on Ubuntu
+    ufw:
+      state: enabled
+      rule: allow
+      port: '22'
+      proto: tcp
+    when: ansible_os_family == "Debian"
 
-  handlers:
-
-  - name: Restart server
-    reboot:  
