@@ -1,0 +1,43 @@
+# HAY QUE PROBARLO
+
+- host: ubuntu
+  remote_user: sysadmin  
+  become: yes
+  vars_files:
+    - dvpassword.yml
+#hay que encriptar la password
+
+  tasks
+
+  - name: Install Maria DB server
+    apt:
+      name: mariadb-server
+      state:present
+      update_chache: yes
+
+  - name: mariaDB service enable and start
+    service: 
+      name: mariadb
+      state: started
+      enabled: yes
+
+# instalacion segura mysql
+
+  - name: MariaDB root password Update 
+    mysql_user:
+      name: root
+      host: "{{ item }}"
+      password: "{{ rootpass }}"
+    loop: 
+       -127.0.0.1
+       -localhost
+       -192.168.56.0/24
+
+  - name: Anonymous user delete
+    mysql_user:
+      name: ""
+      state: absent
+  - name: Test Database delete
+    mysql_db:
+      name: test
+      state: absent
