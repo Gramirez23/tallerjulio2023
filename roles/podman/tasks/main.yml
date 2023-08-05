@@ -5,10 +5,14 @@
     name: podman
     state: present
 
-- name: Build a Docker formatted image
-  community.general.containers.podman_image:
-    name: todoapp
-    path: /home/sysadmin/tallerjulio2023/files/todoapp
-    build:
-      format: docker
+
+- name: Copy todoapp directory to remote host
+  copy:
+    src: ./files/todoapp
+    dest: /opt/
+
+- name: Build an image
+  containers.podman.podman_image:
+    name: "todoapp"
+    path: "/opt/todoapp"
 

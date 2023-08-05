@@ -6,6 +6,7 @@ RUN mkdir /opt/tomcat
 RUN mkdir /opt/config
 RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz && tar xzvf apache*.tar.gz && mv apache-tomcat-9.0.76/* /opt/tomcat/.
 
+ADD server.xml /opt/tomcat/conf/
 ADD app.properties /opt/config/
 ADD todo.war /opt/tomcat/webapps/
 EXPOSE 8080
