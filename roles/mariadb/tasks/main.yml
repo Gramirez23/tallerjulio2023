@@ -27,23 +27,11 @@
       state: started
       enabled: yes
 
-# instalacion segura mysql
+  - name: Determine required MariaDB Python libraries
+    set_fact:
+      deb_mariadb_python_package: "{% if 'python3' in discovered_interpreter_python|default('') %}python3-pymysql{% else %}python-pymysql{% endif %}"
 
-  - name: MariaDB root password Update 
-    mysql_user:
-      name: root
-      host: "{{ item }}"
-      password: "{{ rootpass }}"
-    loop: 
-       - 127.0.0.1
-       - localhost
-       - 192.168.56.0/24
-
-  - name: Anonymous user delete
-    mysql_user:
-      name: ""
-      state: absent
-  - name: Test Database delete
-    mysql_db:
-      name: test
-      state: absent
+  - name: Install python mariadb driver
+    apt:
+      name: "{{ deb_mariadb_python_package }}"
+      state: present
