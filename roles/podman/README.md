@@ -1,38 +1,47 @@
-Role Name
-=========
+# Ansible Role: Podman Installation and Configuration
 
-A brief description of the role goes here.
+An Ansible role that installs Podman and performs the following tasks on the target host:
 
-Requirements
-------------
+- Installs Podman package.
+- Copies the `todoapp` directory to the remote host.
+- Builds a Podman image named `todoapp` from the provided source directory.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+- Ansible installed on the control machine.
+- SSH access to the target host.
+- Appropriate permissions to install packages and copy files.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+No variables are required for this role.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+No dependencies on other roles.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- name: Apply Podman installation and configuration
+  hosts: podman-host
+  become: yes
+  roles:
+    - podman
 
-License
--------
+## Usage
+
+1. Clone this repository.
+2. Create an Ansible playbook and use the role in the playbook as shown in the example playbook above.
+3. Customize the role as needed, such as specifying a different source directory or image.
+
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This Ansible role was created by:
+
+- Name: Guillermo Ramirez
+- GitHub: [@gramirez23](https://github.com/gramirez23)
+

@@ -1,38 +1,42 @@
-Role Name
-=========
+# Ansible Role: Server Updates and Configuration
 
-A brief description of the role goes here.
+An Ansible role that performs the following tasks on target servers:
 
-Requirements
-------------
+- Installs a public key in the `sysadmin` user's authorized keys.
+- Updates all available packages on RedHat servers using YUM.
+- Updates all available packages on Debian servers using APT.
+- Enables the firewall and allows SSH connections on Ubuntu servers using UFW.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+- Ansible installed on the control machine.
+- SSH access to the target servers.
+- Appropriate permissions to update packages and configure the firewall.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+No variables are required for this role.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+No dependencies on other roles.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- name: Apply server updates and configuration
+  hosts: servers
+  become: yes
+  roles:
+    - initialconf 
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This Ansible role was created by:
+
+- Name: Guillermo Ramirez
+- GitHub: [@gramirez23](https://github.com/gramirez23)
+

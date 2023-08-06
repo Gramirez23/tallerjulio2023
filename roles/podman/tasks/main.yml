@@ -14,5 +14,9 @@
 - name: Build an image
   containers.podman.podman_image:
     name: "todoapp"
-    path: "/opt/todoapp"
+    path: '/opt/todoapp/'
+    build:
+      format: docker
+    state: present
+  register: results
 

@@ -19,10 +19,15 @@
       containers.podman.podman_container:
         name: todoapp
         image: todoapp
-        expose:
-          - 8080
-          - 8009
+        network: host
         state: started
+   
+    - name: Open firewall port
+      firewalld:
+        port: 8080/tcp
+        state: enabled 
+        permanent: true
+        immediate: true
 
     handlers:
  
