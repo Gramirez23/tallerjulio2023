@@ -3,36 +3,32 @@
   - hosts: Debian
     become: yes
     remote_user: sysadmin
+    vars_files:
+      - dbpassword.yml
+      - dbpassword2.yml 
     roles:
       - initialconf
       - mariadb
 
-# MYSQL Secure Installation
-    vars_files:
-      - dbpassword.yml
-
     tasks:
 
-      - name: MariaDB root password Update
+      - name: Creation of user todo in mariadb
         mysql_user:
-          login_host: 192.168.56.103     
           login_user: root
-          login_password: ""
-          name: root
+          login_password: "{{ rootpass }}"
+          name: todo
           host: "{{ item }}"
-          password: "{{ rootpass }}"
+          password: "{{ todopass }}"
         loop:
-           - 127.0.0.1
-           - localhost
-           - '%'
+          - 127.0.0.1
+          - localhost
+          - 192.168.56.%
 
-      - name: Anonymous user delete
-        mysql_user:
-          name: ""
-          state: absent
-
-      - name: Test Database delete
+      - name: Creation of db in mariadb
         mysql_db:
-          name: test
-          state: absent
-    
+          login_user: root
+          login_password: "{{ rootpass }}"
+          name: todo
+
+      # copiar dump y restaurarlo
+

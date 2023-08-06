@@ -3,9 +3,19 @@
 
   - name: Install Maria DB server
     apt:
-      name: mariadb-server
+      name: "{{ item }}"      
       state: present
       update_cache: yes
+    loop:
+      - mariadb-server
+      - mariadb-client
+      - python3-pip
+
+  - name: Install PyMySQL with pip
+    pip:
+      name: PyMySQL
+      executable: pip3
+      extra_args: --user
 
   - name: Open mariadb ports
     ufw:
@@ -27,11 +37,35 @@
       state: started
       enabled: yes
 
-  - name: Determine required MariaDB Python libraries
-    set_fact:
-      deb_mariadb_python_package: "{% if 'python3' in discovered_interpreter_python|default('') %}python3-pymysql{% else %}python-pymysql{% endif %}"
+    # MYSQL Secure Installation
 
-  - name: Install python mariadb driver
-    apt:
-      name: "{{ deb_mariadb_python_package }}"
-      state: present
+  - name: MariaDB root password Update
+    mysql_user:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+      login_user: root
+      login_password: "{{ rootpass }}"
+      check_implicit_admin: true
+      name: root
+      host: "{{ item }}"
+      password: "{{ rootpass }}"
+    loop:
+      - 127.0.0.1
+      - localhost
+      - 192.168.56.%
+
+  - name: Anonymous user delete
+    mysql_user:
+      login_host: localhost
+      login_user: root
+      login_password: "{{ rootpass }}"
+      name: ""
+      host_all: yes
+      state: absent
+
+  - name: Delete test database
+    mysql_db:
+      login_host: localhost
+      login_user: root
+      login_password: "{{ rootpass }}"
+      name: test
+      state: absent      
