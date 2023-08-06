@@ -30,5 +30,13 @@
           login_password: "{{ rootpass }}"
           name: todo
 
-      # copiar dump y restaurarlo
+      - name: Copy database dump file
+        copy:
+          src: files/todo.sql
+          dest: /opt/todo.sql
 
+      - name: Restore database
+        mysql_db:
+          name: todo
+          state: import
+          target: /opt/todo.sql
