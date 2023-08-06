@@ -19,7 +19,7 @@ This playbook targets RedHat-based servers and performs the following tasks:
 1. Create a hosts inventory file or configure your Ansible inventory with the target RedHat-based servers.
 2. Update the `remote_user` in the playbook to the appropriate SSH user.
 3. Customize any variables in the roles or playbook to suit your needs.
-4. Run the playbook using the command: `ansible-playbook -i hosts playbook-redhat.yml`.
+4. If you want to run only this playbook use the command: `ansible-playbook webserver.yml --ask-become-pass`.
 
 ## dbserver.yml: Debian Server MariaDB Configuration
 
@@ -35,9 +35,13 @@ This playbook targets Debian-based servers and performs the following tasks:
 
 1. Create a hosts inventory file or configure your Ansible inventory with the target Debian-based servers.
 2. Update the `remote_user` in the playbook to the appropriate SSH user.
-3. Create a `dbpassword.yml` file with the `rootpass` variable for MariaDB.
-4. Run the playbook using the command: `ansible-playbook -i hosts playbook-debian.yml`.
+3. Create a `dbpassword.yml` file with the `rootpass` variable for MariaDB using ansible-vault.
+4. If you want to run only this playbook use the command: `ansible-playbook dbserver.yml --ask-become-pass --ask-vault-pass`.
 
-## Project Structure
+## Author Information
 
+This Ansible role was created by:
 
+- Name: Guillermo Ramirez
+- GitHub: [@gramirez23](https://github.com/gramirez23)
+- Name: Gabriel Mendez
