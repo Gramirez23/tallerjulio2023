@@ -34,12 +34,14 @@
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         line: IncludeOptional /etc/httpd/vhosts.d/*.conf
+      notify: Restart apache
       when: ansible_os_family == 'RedHat'
 
     - name: Include vhosts directory on Debian
       lineinfile:
         path: /etc/apache2/apache2.conf
         line: IncludeOptional /etc/apache2/vhosts.d/*.conf
+      notify: Restart apache
       when: ansible_os_family == 'Debian'
 
 # Firewall ports        

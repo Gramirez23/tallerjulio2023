@@ -1,0 +1,10 @@
+---
+- hosts: linux
+  become: yes
+  remote_user: sysadmin
+  tasks:
+
+  - name: installs Public key in sysadmin user
+    authorized_key:
+      user: sysadmin
+      key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
