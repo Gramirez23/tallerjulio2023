@@ -1,11 +1,5 @@
 ---
 
-  - name: installs Public key in sysadmin user
-    authorized_key:
-      user: sysadmin
-      key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
-      state: present          
-
   - name: Update all available packages for RedHat servers
     yum:
       name: "*"

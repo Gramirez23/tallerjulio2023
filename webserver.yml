@@ -23,13 +23,6 @@
         recreate: true
         state: started
    
-    - name: Open firewall port
-      firewalld:
-        port: 8080/tcp
-        state: enabled 
-        permanent: true
-        immediate: true
-
     handlers:
  
      - name: Restart apache
