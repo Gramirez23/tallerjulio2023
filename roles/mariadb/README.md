@@ -1,11 +1,12 @@
 # Ansible Role: Apache Installation and Configuration
 
-This Ansible role installs and configures mariadb on Debian based systems.
+This Ansible role installs, configures mariadb and runs `mysql_secure_installation` on Debian based systems.
 
 ## Requirements
 
 - Ansible installed on the control node.
 - SSH access to target hosts with appropriate privileges.
+- Define the `rootpass` variable in your playbook using ansible-vault.
 
 ## Role Variables
 
