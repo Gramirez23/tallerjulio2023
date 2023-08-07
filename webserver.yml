@@ -20,6 +20,7 @@
         name: todoapp
         image: todoapp
         network: host
+        recreate: true
         state: started
    
     - name: Open firewall port

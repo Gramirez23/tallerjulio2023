@@ -18,6 +18,7 @@
           login_password: "{{ rootpass }}"
           name: todo
           host: "{{ item }}"
+          priv: '*.*:ALL'
           password: "{{ todopass }}"
         loop:
           - 127.0.0.1
@@ -37,6 +38,8 @@
 
       - name: Restore database
         mysql_db:
+          login_user: root
+          login_password: "{{ rootpass }}"                
           name: todo
-          state: import
+          state: present
           target: /opt/todo.sql

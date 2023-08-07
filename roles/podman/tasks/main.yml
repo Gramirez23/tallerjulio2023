@@ -15,6 +15,7 @@
   containers.podman.podman_image:
     name: "todoapp"
     path: '/opt/todoapp/'
+    force: true
     build:
       format: docker
     state: present
