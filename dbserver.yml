@@ -17,8 +17,8 @@
           login_user: root
           login_password: "{{ rootpass }}"
           name: todo
+          priv: '*.*:ALL,GRANT'
           host: "{{ item }}"
-          priv: '*.*:ALL'
           password: "{{ todopass }}"
         loop:
           - 127.0.0.1
@@ -41,5 +41,5 @@
           login_user: root
           login_password: "{{ rootpass }}"                
           name: todo
-          state: present
+          state: import
           target: /opt/todo.sql

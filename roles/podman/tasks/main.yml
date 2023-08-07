@@ -23,7 +23,7 @@
 
 - name: Enable ajp port
   firewalld:
-   port:  8009/tcp
+   port: 8009/tcp
    state: enabled
    permanent: true
    immediate: true

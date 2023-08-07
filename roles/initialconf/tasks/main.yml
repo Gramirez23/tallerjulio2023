@@ -4,7 +4,6 @@
     yum:
       name: "*"
       state: latest
-    notify: Restart server
     when: ansible_os_family == "RedHat"
 
   - name: Update all available packages for Debian servers
@@ -12,7 +11,6 @@
       name: "*"
       state: latest
       update_cache: yes
-    notify: Restart server
     when: ansible_os_family == "Debian" 
 
   - name: Enable firewall and allow ssh connections on Ubuntu
